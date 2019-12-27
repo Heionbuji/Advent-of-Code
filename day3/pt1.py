@@ -23,29 +23,29 @@ def translateCoordinates(wire):
     return visited
 
 def tracePath(path):
-    allVisitedCoords = []
+    allVisitedCoords = {}
     prev = (0, 0)
     for coords in path:
         if coords[0] == prev[0]:
             for y in range(abs(coords[1] - prev[1])):
-                allVisitedCoords.append((coords[0], prev[1]))
+                allVisitedCoords[(coords[0], prev[1])] = 0
                 if coords[1] > prev[1]:
                     prev = (prev[0], prev[1] + 1)
                 if coords[1] < prev[1]:
                     prev = (prev[0], prev[1] - 1)
         elif coords[1] == prev[1]:
             for x in range(abs(coords[0] - prev[0])):
-                allVisitedCoords.append((prev[0], coords[1]))
+                allVisitedCoords[(prev[0], coords[1])] = 0
                 if coords[0] > prev[0]:
                     prev = (prev[0] + 1, prev[1])
                 if coords[0] < prev[0]:
                     prev = (prev[0] - 1, prev[1])
         else:
             print('something went wrong')
-    allVisitedCoords.append(path[-1])
+    allVisitedCoords[path[-1]] = 0
     return allVisitedCoords
 
-def checkCollisions(path1, path2): # This may actually be the absolute slowest way to do this, don't try this at home (or work)
+def checkCollisions(path1, path2):
     collisions = []
     for coords in path1:
         if coords in path2:
